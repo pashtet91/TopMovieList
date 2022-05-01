@@ -24,18 +24,14 @@ class MovieRepo @Inject constructor (private val movieService: MovieService){
                 response: Response<MoviewResponse>
             ) {
                 data.value = response.body()?.results
-                Log.d(this.javaClass.simpleName, "Response: ${response.body()?.results}")
             }
 
             override fun onFailure(call: Call<MoviewResponse>, t: Throwable) {
                 data.value = null
-                Log.d(this.javaClass.simpleName, "Failure")
             }
-
         })
 
         return data
     }
-
 
 }

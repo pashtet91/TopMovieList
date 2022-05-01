@@ -1,6 +1,8 @@
 package com.pashtet.topmovielist.model
 
-data class Movie(
+import javax.inject.Inject
+
+data class Movie (
     val poster_path: String?,
     val adult: Boolean,
     val overview: String,
