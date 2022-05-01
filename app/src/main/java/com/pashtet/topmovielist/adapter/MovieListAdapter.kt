@@ -18,6 +18,8 @@ class MovieListAdapter (private val movies: MutableList<Movie>,
                     ): RecyclerView.Adapter<MovieListAdapter.ViewHolder>()  {
 
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemMovieBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
@@ -45,6 +47,14 @@ class MovieListAdapter (private val movies: MutableList<Movie>,
         this.movies.addAll(movieList)
         notifyDataSetChanged()
     }
+
+    fun addData(listItems: List<Movie>?) {
+        var size = movies.size
+        this.movies.addAll(listItems as List<Movie>)
+        var sizeNew = this.movies.size
+        notifyItemRangeChanged(size, sizeNew)
+    }
+
 
     inner class ViewHolder(vB: ItemMovieBinding):RecyclerView.ViewHolder(vB.root){
         var movieImage: ImageView = vB.imageView

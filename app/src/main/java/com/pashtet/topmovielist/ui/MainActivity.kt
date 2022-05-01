@@ -9,8 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pashtet.topmovielist.R
 import com.pashtet.topmovielist.adapter.MovieListAdapter
+import com.pashtet.topmovielist.adapter.PaginationScrollListener
 
 import com.pashtet.topmovielist.databinding.ActivityMainBinding
+import com.pashtet.topmovielist.model.Movie
 import com.pashtet.topmovielist.model.MovieService
 import com.pashtet.topmovielist.repository.MovieRepo
 import com.pashtet.topmovielist.viewmodel.MainViewModel
@@ -25,6 +27,11 @@ class  MainActivity  : AppCompatActivity() {
     private lateinit var movieListAdapter: MovieListAdapter
 
     private  val viewModel by viewModels<MainViewModel>()
+
+    private var isLastPage: Boolean = false
+    private var isLoading: Boolean = false
+
+    private var someMoviesList:List<Movie>? = emptyList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +53,7 @@ class  MainActivity  : AppCompatActivity() {
                 movieListAdapter.setMovieList(movies)
             }
 //            Log.i("Movies Result", "Result = $movies")
+            someMoviesList = movies
         })
     }
 
@@ -55,6 +63,32 @@ class  MainActivity  : AppCompatActivity() {
         vB.recyclerView.layoutManager = layoutManager
         movieListAdapter = MovieListAdapter(mutableListOf(),this)
         vB.recyclerView.adapter = movieListAdapter
+
+
+        vB.recyclerView?.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+            override fun loadMoreItems() {
+                isLoading = true
+                //you have to call loadmore items to get more data
+                getMoreItems()
+            }
+        })
+
+
+    }
+
+    private fun getMoreItems() {
+
+        isLoading = false
+
+        movieListAdapter.addData(someMoviesList)
     }
 
     private fun showProgressBar(){
