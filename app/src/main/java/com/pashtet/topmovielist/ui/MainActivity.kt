@@ -28,9 +28,6 @@ class  MainActivity  : AppCompatActivity() {
 
     private  val viewModel by viewModels<MainViewModel>()
 
-    private var isLastPage: Boolean = false
-    private var isLoading: Boolean = false
-
     private var someMoviesList:List<Movie>? = emptyList()
 
 
@@ -64,31 +61,6 @@ class  MainActivity  : AppCompatActivity() {
         movieListAdapter = MovieListAdapter(mutableListOf(),this)
         vB.recyclerView.adapter = movieListAdapter
 
-
-        vB.recyclerView?.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
-            override fun isLastPage(): Boolean {
-                return isLastPage
-            }
-
-            override fun isLoading(): Boolean {
-                return isLoading
-            }
-
-            override fun loadMoreItems() {
-                isLoading = true
-                //you have to call loadmore items to get more data
-                getMoreItems()
-            }
-        })
-
-
-    }
-
-    private fun getMoreItems() {
-
-        isLoading = false
-
-        movieListAdapter.addData(someMoviesList)
     }
 
     private fun showProgressBar(){
