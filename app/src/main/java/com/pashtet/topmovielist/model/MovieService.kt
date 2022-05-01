@@ -20,7 +20,7 @@ interface MovieService {
         : Call<MoviewResponse>
 
     companion object{
-        private const val API_KEY = "829b5f4451dd727792e0139c19fcb81d"
+        private const val API_KEY = ""
         const val IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
         val instance: MovieService by lazy{
             val retrofit = Retrofit.Builder()
